@@ -17,6 +17,23 @@
             padding: 20px;
             text-align: center;
         }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+        nav button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        nav button:hover {
+            background-color: #666;
+        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -58,6 +75,27 @@
         .product button:hover {
             background-color: #218838;
         }
+        .cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .cart button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart button:hover {
+            background-color: #c82333;
+        }
         footer {
             background-color: #333;
             color: #fff;
@@ -76,36 +114,100 @@
         <p>مرحبًا بكم في متجرنا الإلكتروني!</p>
     </header>
 
+    <nav>
+        <button onclick="filterProducts('all')">الكل</button>
+        <button onclick="filterProducts('electronics')">إلكترونيات</button>
+        <button onclick="filterProducts('clothing')">ملابس</button>
+        <button onclick="filterProducts('accessories')">إكسسوارات</button>
+    </nav>
+
     <div class="container">
-        <div class="product">
+        <!-- المنتج 1 -->
+        <div class="product" data-category="electronics">
             <img src="https://via.placeholder.com/150" alt="منتج 1">
-            <h3>منتج 1</h3>
-            <p>وصف قصير للمنتج الأول.</p>
-            <button>أضف إلى السلة</button>
+            <h3>سماعات لاسلكية</h3>
+            <p>سماعات عالية الجودة بتقنية البلوتوث.</p>
+            <button onclick="addToCart('سماعات لاسلكية')">أضف إلى السلة</button>
         </div>
-        <div class="product">
+
+        <!-- المنتج 2 -->
+        <div class="product" data-category="electronics">
             <img src="https://via.placeholder.com/150" alt="منتج 2">
-            <h3>منتج 2</h3>
-            <p>وصف قصير للمنتج الثاني.</p>
-            <button>أضف إلى السلة</button>
+            <h3>هاتف ذكي</h3>
+            <p>هاتف ذكي بشاشة 6.5 بوصة وكاميرا مزدوجة.</p>
+            <button onclick="addToCart('هاتف ذكي')">أضف إلى السلة</button>
         </div>
-        <div class="product">
+
+        <!-- المنتج 3 -->
+        <div class="product" data-category="clothing">
             <img src="https://via.placeholder.com/150" alt="منتج 3">
-            <h3>منتج 3</h3>
-            <p>وصف قصير للمنتج الثالث.</p>
-            <button>أضف إلى السلة</button>
+            <h3>تيشيرت رجالي</h3>
+            <p>تيشيرت قطني مريح بتصميم عصري.</p>
+            <button onclick="addToCart('تيشيرت رجالي')">أضف إلى السلة</button>
         </div>
-        <div class="product">
+
+        <!-- المنتج 4 -->
+        <div class="product" data-category="clothing">
             <img src="https://via.placeholder.com/150" alt="منتج 4">
-            <h3>منتج 4</h3>
-            <p>وصف قصير للمنتج الرابع.</p>
-            <button>أضف إلى السلة</button>
+            <h3>جينز</h3>
+            <p>جينز بقصة مستقيمة ومناسبة لجميع المناسبات.</p>
+            <button onclick="addToCart('جينز')">أضف إلى السلة</button>
         </div>
+
+        <!-- المنتج 5 -->
+        <div class="product" data-category="accessories">
+            <img src="https://via.placeholder.com/150" alt="منتج 5">
+            <h3>ساعة يد</h3>
+            <p>ساعة يد فاخرة بتصميم أنيق.</p>
+            <button onclick="addToCart('ساعة يد')">أضف إلى السلة</button>
+        </div>
+
+        <!-- المنتج 6 -->
+        <div class="product" data-category="accessories">
+            <img src="https://via.placeholder.com/150" alt="منتج 6">
+            <h3>نظارة شمسية</h3>
+            <p>نظارة شمسية بتصميم عصري وحماية من الأشعة فوق البنفسجية.</p>
+            <button onclick="addToCart('نظارة شمسية')">أضف إلى السلة</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h3>سلة التسوق</h3>
+        <ul id="cart-items"></ul>
+        <button onclick="clearCart()">إفراغ السلة</button>
     </div>
 
     <footer>
         <p>جميع الحقوق محفوظة &copy; 2023 متجر التجربة</p>
     </footer>
+
+    <script>
+        // دالة لإضافة منتج إلى السلة
+        function addToCart(productName) {
+            const cartItems = document.getElementById('cart-items');
+            const li = document.createElement('li');
+            li.textContent = productName;
+            cartItems.appendChild(li);
+        }
+
+        // دالة لإفراغ السلة
+        function clearCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+        }
+
+        // دالة لتصفية المنتجات حسب التصنيف
+        function filterProducts(category) {
+            const products = document.querySelectorAll('.product');
+            products.forEach(product => {
+                if (category === 'all' || product.getAttribute('data-category') === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
